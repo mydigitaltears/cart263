@@ -58,6 +58,12 @@ class Avatar extends Agent {
   display() {
     // Don't display if not active
     if (!this.active) {
+      push();
+      textAlign(CENTER);
+      fill(255);
+      textSize(20);
+      text("dead",mouseX,mouseY)
+      pop();
       return;
     }
 
