@@ -54,4 +54,18 @@ class Avatar extends Agent {
       this.active = false;
     }
   }
+  display() {
+    // Don't display if not active
+    if (!this.active) {
+      return;
+    }
+
+    // Set fill and stroke then draw an ellipse at this agent's position and with its size
+    push();
+    noStroke();
+    fill(this.color);
+    rectMode(CENTER);
+    rect(this.x,this.y,this.size,this.size);
+    pop();
+  }
 }

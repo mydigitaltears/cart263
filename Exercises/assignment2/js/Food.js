@@ -11,10 +11,11 @@ class Food extends Agent {
   // Also set a minimum and maximum size for this food object which it
   // will vary between when it resets
   constructor(x,y,minSize,maxSize,maxSpeed) {
-    super(x,y,random(minSize,maxSize),'#55cccc');
+    super(x,y,random(minSize,maxSize));
     this.minSize = minSize;
     this.maxSize = maxSize;
     this.maxSpeed = maxSpeed;
+    this.color = color(random(0,255),random(0,255),random(0,255));
     this.xVelocity = random(-this.maxSpeed,this.maxSpeed);
     this.yVelocity = random(-this.maxSpeed,this.maxSpeed);
   }
@@ -27,6 +28,7 @@ class Food extends Agent {
     this.x = random(0,width);
     this.y = random(0,height);
     this.size = random(this.minSize,this.maxSize);
+    this.color = color(random(0,255),random(0,255),random(0,255));
     this.xVelocity = random(-this.maxSpeed,this.maxSpeed);
     this.yVelocity = random(-this.maxSpeed,this.maxSpeed);
   }
@@ -49,5 +51,19 @@ class Food extends Agent {
     if(frameCount%60 === 0){
       this.yVelocity = random(-this.maxSpeed,this.maxSpeed);
     }
+  }
+
+  display() {
+    // Don't display if not active
+    if (!this.active) {
+      return;
+    }
+
+    // Set fill and stroke then draw an ellipse at this agent's position and with its size
+    push();
+    noStroke();
+    fill(this.color);
+    ellipse(this.x,this.y,this.size);
+    pop();
   }
 }

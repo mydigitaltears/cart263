@@ -52,16 +52,6 @@ class Agent {
   //
   // Displays the agent as a coloured circle
   display() {
-    // Don't display if not active
-    if (!this.active) {
-      return;
-    }
 
-    // Set fill and stroke then draw an ellipse at this agent's position and with its size
-    push();
-    noStroke();
-    fill(this.color);
-    ellipse(this.x,this.y,this.size);
-    pop();
   }
 }
