@@ -14,7 +14,7 @@ The player circle shrinks over time, but grows when it eats.
 
 // Constants for key quantities
 const AVATAR_MAX_SIZE = 64;
-const AVATAR_SIZE_LOSS_PER_FRAME = 1;
+const AVATAR_SIZE_LOSS_PER_FRAME = 0.5;
 const FOOD_MIN_SIZE = 5;
 const FOOD_MAX_SIZE = 100;
 
