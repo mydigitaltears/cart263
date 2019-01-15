@@ -30,7 +30,9 @@ let food = {
   y: 0,
   size: 64,
   color: '#55cccc',
-  velocity: 2
+  xVelocity: 3,
+  yVelocity: 3,
+  maxSpeed: 8
 }
 
 // preload()
@@ -71,6 +73,7 @@ function draw() {
   checkCollision();
   displayAvatar();
   displayFood();
+  updateFood();
 }
 
 // updateAvatar()
@@ -133,4 +136,24 @@ function displayFood() {
 function positionFood() {
   food.x = random(0,width);
   food.y = random(0,height);
+}
+
+// updateFood()
+//
+// Update the food's position
+function updateFood() {
+  food.x = food.x + food.xVelocity;
+  food.y = food.y + food.yVelocity;
+  if(food.x > windowWidth || food.x < 0){
+    food.xVelocity = -food.xVelocity
+  }
+  if(food.y > windowHeight || food.y < 0){
+    food.yVelocity = -food.yVelocity
+  }
+  if(frameCount%60 === 0){
+    food.xVelocity = random(-food.maxSpeed,food.maxSpeed);
+  }
+  if(frameCount%45 === 0){
+    food.yVelocity = random(-food.maxSpeed,food.maxSpeed);
+  }
 }
