@@ -59,12 +59,13 @@ function draw() {
   background(0);
 
   avatar.update();
-  if (avatar.collide(food)) {
-    avatar.eat(food);
-  }
   avatar.display();
+
   for(let i = 0; i < food.length; i++){
     food[i].display();
     food[i].update();
+    if (avatar.collide(food[i])) {
+      avatar.eat(food[i]);
+    }
   }
 }
