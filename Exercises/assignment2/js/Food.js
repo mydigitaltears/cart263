@@ -14,6 +14,8 @@ class Food extends Agent {
     super(x,y,random(minSize,maxSize),'#55cccc');
     this.minSize = minSize;
     this.maxSize = maxSize;
+    this.xVelocity = random(-foodMaxSpeed,foodMaxSpeed);
+    this.yVelocity = random(-foodMaxSpeed,foodMaxSpeed);
   }
 
   // reset()
@@ -24,5 +26,27 @@ class Food extends Agent {
     this.x = random(0,width);
     this.y = random(0,height);
     this.size = random(this.minSize,this.maxSize);
+    this.xVelocity = random(-foodMaxSpeed,foodMaxSpeed);
+    this.yVelocity = random(-foodMaxSpeed,foodMaxSpeed);
+  }
+
+  // update()
+  //
+  // Updates the position every frame
+  update() {
+    this.x = this.x + this.xVelocity;
+    this.y = this.y + this.yVelocity;
+    if(this.x < 0 || this.x > windowWidth){
+      this.xVelocity = -this.xVelocity;
+    }
+    if(this.y < 0 || this.y > windowHeight){
+      this.yVelocity = -this.yVelocity;
+    }
+    if(frameCount%30 === 0){
+      this.xVelocity = random(-foodMaxSpeed,foodMaxSpeed);
+    }
+    if(frameCount%60 === 0){
+      this.yVelocity = random(-foodMaxSpeed,foodMaxSpeed);
+    }
   }
 }
