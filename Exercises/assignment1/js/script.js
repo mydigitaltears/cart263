@@ -60,15 +60,15 @@ function setup() {
 // Move the avatar, check for collisions, display avatar and food
 
 function draw() {
+  // Otherwise we handle the game
+  background(0);
   // Make sure the avatar is still alive - if not, we don't run
   // the rest of the draw loop
   if (!avatar.active) {
     // By using "return" the draw() function exits immediately
+    end();
     return;
   }
-
-  // Otherwise we handle the game
-  background(0);
   updateAvatar();
   checkCollision();
   displayAvatar();
@@ -158,4 +158,11 @@ function updateFood() {
   if(frameCount%45 === 0){
     food.yVelocity = random(-food.maxSpeed,food.maxSpeed);
   }
+}
+
+function end() {
+  fill(255);
+  console.log("game over");
+  textAlign(CENTER);
+  text('GAME OVER', windowWidth/2, windowHeight/2);
 }
