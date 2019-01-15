@@ -39,7 +39,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth,windowHeight);
   avatar = new Avatar(mouseX,mouseY,AVATAR_MAX_SIZE,AVATAR_SIZE_LOSS_PER_FRAME);
-  for (let i = 0; i < 10; i++){
+  for (let i = 0; i < 5; i++){
     let newFood = new Food(random(0,width),random(0,height),FOOD_MIN_SIZE,FOOD_MAX_SIZE,FOOD_MAX_SPEED);
     food.push(newFood);
   }

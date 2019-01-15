@@ -28,6 +28,7 @@ class Avatar extends Agent {
     // But constrain it within the maximum size
     this.size = constrain(this.size + other.size,0,this.maxSize);
     // Reset the other agent to "kill" it
+    this.color = other.color;
     other.reset();
   }
 
