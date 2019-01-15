@@ -100,6 +100,8 @@ function checkCollision() {
   let d = dist(avatar.x,avatar.y,food.x,food.y);
   if (d < avatar.size/2 + food.size/2) {
     avatar.size = constrain(avatar.size + AVATAR_SIZE_GAIN,0,avatar.maxSize);
+    food.color = color(random(0,255), random(0,255), random(0,255));
+    console.log(food.color);
     positionFood();
   }
 }
