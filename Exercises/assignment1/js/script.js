@@ -1,4 +1,4 @@
-//"use strict";
+"use strict";
 
 /*****************
 
@@ -147,10 +147,10 @@ function updateFood() {
   food.x = food.x + food.xVelocity;
   food.y = food.y + food.yVelocity;
   if(food.x > windowWidth || food.x < 0){
-    food.xVelocity = -food.xVelocity
+    food.xVelocity = -food.xVelocity;
   }
   if(food.y > windowHeight || food.y < 0){
-    food.yVelocity = -food.yVelocity
+    food.yVelocity = -food.yVelocity;
   }
   if(frameCount%60 === 0){
     food.xVelocity = random(-food.maxSpeed,food.maxSpeed);
