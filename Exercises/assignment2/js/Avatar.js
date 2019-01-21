@@ -13,6 +13,7 @@ class Avatar extends Agent {
     super(x,y,size,'#cccc55');
     this.maxSize = size;
     this.sizeLoss = sizeLoss;
+    this.count = 0;
   }
 
   // eat(other)
@@ -30,6 +31,7 @@ class Avatar extends Agent {
     // Reset the other agent to "kill" it
     this.color = other.color;
     other.reset();
+    this.count ++;
   }
 
   // update()
@@ -62,9 +64,15 @@ class Avatar extends Agent {
       textAlign(CENTER);
       fill(255);
       textSize(20);
-      text("dead",mouseX,mouseY)
+      text("You ate "+this.count+" circles,",mouseX,mouseY);
+      text("click to restart!",mouseX,mouseY+20);
       pop();
-      return;
+      if (mouseIsPressed){
+        this.active = true;
+        this.size = AVATAR_MAX_SIZE;
+        this.count = 0;
+      }
+      //return;
     }
 
     // Set fill and stroke then draw an ellipse at this agent's position and with its size

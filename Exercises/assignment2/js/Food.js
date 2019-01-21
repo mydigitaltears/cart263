@@ -39,10 +39,10 @@ class Food extends Agent {
   update() {
     this.x = this.x + this.xVelocity;
     this.y = this.y + this.yVelocity;
-    if(this.x < 0 || this.x > windowWidth){
+    if(this.x < 0 || this.x > width){
       this.xVelocity = -this.xVelocity;
     }
-    if(this.y < 0 || this.y > windowHeight){
+    if(this.y < 0 || this.y > height){
       this.yVelocity = -this.yVelocity;
     }
     if(frameCount%30 === 0){
