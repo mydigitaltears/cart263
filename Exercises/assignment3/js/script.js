@@ -38,9 +38,11 @@ function setup() {
 // When a span is clicked we remove its revealed class and add the redacted class
 // thus blacking it out
 function spanClicked() {
-  $(this).removeClass('redacted');
-  $(this).addClass('revealed');
-  nbSecrets ++;
+  if($(this).hasClass('redacted')){
+    $(this).removeClass('redacted');
+    $(this).addClass('revealed');
+    nbSecrets ++;
+  }
 }
 
 // update()
