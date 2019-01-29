@@ -13,6 +13,8 @@ secrets become revealed!
 
 // A place to store the jQuery selection of all spans
 let $spans;
+// number of secrets revealed
+var nbSecrets = 0;
 
 // When the document is loaded we call the setup function
 $(document).ready(setup);
@@ -25,6 +27,8 @@ function setup() {
   $spans = $('span');
   // Set a click handler on the spans (so we know when they're clicked)
   $spans.on('click',spanClicked);
+  // Set a mouseOver handler on the spans
+  $spans.mouseover('mouseover',spanHovered);
   // Set an interval of 500 milliseconds to update the state of the page
   setInterval(update,500);
 };
@@ -34,8 +38,9 @@ function setup() {
 // When a span is clicked we remove its revealed class and add the redacted class
 // thus blacking it out
 function spanClicked() {
-  $(this).removeClass('revealed');
-  $(this).addClass('redacted');
+  $(this).removeClass('redacted');
+  $(this).addClass('revealed');
+  nbSecrets ++;
 }
 
 // update()
@@ -44,7 +49,9 @@ function spanClicked() {
 // using jQuery's each() function which calls the specified function on _each_ of the
 // elements in the selection
 function update() {
-  $spans.each(updateSpan);
+  // text showing how many secrets has been found
+  document.getElementById("secrets").innerHTML = "Number of secrets found: "+nbSecrets;
+  //$spans.each(updateSpan);
 }
 
 // updateSpan()
@@ -52,14 +59,23 @@ function update() {
 // With a probability of 10% it unblanks the current span by removing the
 // redacted class and adding the revealed class. Because this function is called
 // by each(), "this" refers to the current element that each has selected.
-function updateSpan() {
-  let r = Math.random();
-  if (r < 0.1) {
-    $(this).removeClass('redacted');
-    $(this).addClass('revealed');
+// function updateSpan() {
+//   let r = Math.random();
+//   if (r < 0.1) {
+//     $(this).removeClass('redacted');
+//     $(this).addClass('revealed');
+//   }
+// }
+
+// function for spanHovers
+function spanHovered() {
+  // only works on spans that had the 'normal' class
+  if($(this).hasClass('normal')){
+    $(this).removeClass('normal');
+    $(this).addClass('highlighted');
+    nbSecrets ++;
   }
 }
-
 // A version using anonymous functions:
 
 // $(document).ready(function () {
