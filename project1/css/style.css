@@ -3,3 +3,6 @@
 This is the style file for this project.
 
 **********************************************/
+#myCanvas {
+  width: 100%;
+}

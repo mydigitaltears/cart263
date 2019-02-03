@@ -21,15 +21,19 @@ var ctx = c.getContext("2d");
 theRock = new Rock();
 theSisyphus = new Sisyphus();
 
+// $( function() {
+//   $( "#myCanvas" ).draggable();
+// } );
+
 function update() {
   ctx.clearRect(0, 0, c.width, c.height);
   theSisyphus.behavior(theRock);
   theRock.gravity(theSisyphus);
   theSisyphus.display();
   theRock.display();
-  if (theRock.x > 499){
+  if (theRock.x > 999){
     theRock.fallOff = true;
   }
-  document.getElementById("heightOfRock").innerHTML = "Height of the rock = "+parseInt(theRock.x)+" / 500 Falling = "+theRock.fallOff;
+  document.getElementById("heightOfRock").innerHTML = "Height of the rock = "+parseInt(theRock.x)+" / 1000 Falling = "+theRock.fallOff;
   document.getElementById("heightOfSisyphus").innerHTML = "Height of Sisyphus = "+parseInt(theSisyphus.x)+" Pushing = "+theSisyphus.pushing;
 }
