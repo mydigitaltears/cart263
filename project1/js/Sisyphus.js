@@ -1,11 +1,11 @@
 class Sisyphus {
   constructor () {
-    this.y = 0;
+    this.x = 0;
     this.pushing = false;
   }
 
   behavior (other) {
-    if (other.y < 500){
+    if (other.x < 500){
       this.push(other);
     }
   }
@@ -15,14 +15,14 @@ class Sisyphus {
       this.returnToBall(other);
     }
     else if (this.pushing === true){
-      this.y += 0.3;
-      other.y += 0.3;
+      this.x += 0.3;
+      other.x += 0.3;
     }
   }
 
   returnToBall (other) {
-    this.y -= 0.5;
-    if (this.y < other.y-10 && other.fallOff === false){
+    this.x -= 0.5;
+    if (this.x < other.x-10 && other.fallOff === false){
       this.pushing = true;
     }
   }
@@ -30,7 +30,7 @@ class Sisyphus {
   display() {
     ctx.beginPath();
     ctx.fillStyle = 'black';
-    ctx.ellipse(this.y, 250, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.ellipse(this.x, 250, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.fill();
   }

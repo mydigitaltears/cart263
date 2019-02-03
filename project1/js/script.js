@@ -27,7 +27,9 @@ function update() {
   theRock.gravity(theSisyphus);
   theSisyphus.display();
   theRock.display();
-  if (theRock.y > 499){
+  if (theRock.x > 499){
     theRock.fallOff = true;
   }
+  document.getElementById("heightOfRock").innerHTML = "Height of the rock = "+parseInt(theRock.x)+" / 500 Falling = "+theRock.fallOff;
+  document.getElementById("heightOfSisyphus").innerHTML = "Height of Sisyphus = "+parseInt(theSisyphus.x)+" Pushing = "+theSisyphus.pushing;
 }
