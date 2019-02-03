@@ -4,9 +4,10 @@ class Rock {
     this.fallOff = false
   }
 
-  gravity() {
+  gravity(other) {
     if (this.fallOff === true) {
       this.y -= 3;
+      other.pushing = false;
       if (this.y <= 10){
         this.fallOff = false;
       }

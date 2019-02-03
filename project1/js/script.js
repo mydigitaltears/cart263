@@ -18,20 +18,16 @@ $( document ).ready(function() {
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
-
 theRock = new Rock();
 theSisyphus = new Sisyphus();
 
 function update() {
-  console.log(theSisyphus.pushing);
-  //console.log(theRock.y);
   ctx.clearRect(0, 0, c.width, c.height);
   theSisyphus.behavior(theRock);
-  theRock.gravity();
+  theRock.gravity(theSisyphus);
   theSisyphus.display();
   theRock.display();
   if (theRock.y > 499){
-    theSisyphus.pushing = false;
     theRock.fallOff = true;
   }
 }
