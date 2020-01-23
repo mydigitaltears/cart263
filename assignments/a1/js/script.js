@@ -18,6 +18,13 @@ const PAINT_COLOR = 'white';
 // global variables
 let rotation = 0;
 let currentKey = "";
+let imagesNb = 0;
+let url1 = 'https://unsplash.it/30/30/?random'+1;
+let url2 = 'https://unsplash.it/30/30/?random'+2;
+let url3 = 'https://unsplash.it/30/30/?random'+3;
+let url4 = 'https://unsplash.it/30/30/?random'+4;
+let url = "";
+
 
 // Set up our starting function for when the page loads
 window.onload = setup;
@@ -100,10 +107,29 @@ function paint(e) {
   // save that into a variable for clarity.
   let pixel = e.target;
   // Change the background color of the element to a random color
-  let r = Math.random()*255;
-  let g = Math.random()*255;
-  let b = Math.random()*255;
-  pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  // let r = Math.random()*255;
+  // let g = Math.random()*255;
+  // let b = Math.random()*255;
+  // pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+  let rand = Math.random()*4;
+  if (rand <= 1) {
+    console.log("1");
+    url = url1;
+  }
+  else if (rand > 1 && rand <= 2) {
+    console.log("2");
+    url = url2;
+  }
+  else if (rand > 2 && rand <= 3) {
+    console.log("3");
+    url = url3;
+  }
+  else {
+    console.log("4");
+    url = url4;
+  }
+  pixel.style.backgroundImage = `url(${url})`;
   // Set a timeout to call the reset function after a delay
   // When we pass additional parameters (like 'pixel' below) they
   // are passed to the callback function (resetPixel)
@@ -114,5 +140,6 @@ function paint(e) {
 //
 // Takes the provided pixel element and sets its color back to default
 function resetPixel(pixel) {
+  pixel.style.backgroundImage = "none";
   pixel.style.backgroundColor = DEFAULT_COLOR;
 }
