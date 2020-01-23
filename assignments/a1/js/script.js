@@ -71,10 +71,9 @@ setInterval(rotatePixel, 100);
 // }
 
 function clearCanvas(e) {
+  let pixels = document.getElementsByClassName("hoveredPixel");
   if (e.keyCode === 32) {
-    let pixels = document.getElementsByClassName("hoveredPixel");
     for (let i = 0; i<pixels.length; i++){
-
       pixels[i].style.transform = 'rotate(0deg)';
       pixels[i].style.backgroundImage = 'none';
       pixels[i].style.backgroundColor = 'black';
