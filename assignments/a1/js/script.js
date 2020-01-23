@@ -43,7 +43,19 @@ function setup() {
     document.addEventListener('keydown', rotate)
     // Add another keydown handler for the document
     document.addEventListener('keydown', typed)
+    // Add a mouseover handler to the new element
+    pixel.addEventListener('mouseover', addText);
   }
+}
+
+// addText
+
+function addText(e) {
+  let pixel = e.target;
+  pixel.innerHTML = String.fromCharCode(currentKey);
+  pixel.style.textAlign = "center";
+  pixel.style.fontSize = "x-large";
+  pixel.style.fontWeight = "bolder";
 }
 
 // typed
