@@ -15,6 +15,9 @@ const PIXEL_REVERT_DELAY = 1000;
 const DEFAULT_COLOR = 'black';
 const PAINT_COLOR = 'white';
 
+// global variables
+let rotation = 0;
+
 // Set up our starting function for when the page loads
 window.onload = setup;
 
@@ -38,7 +41,7 @@ function setup() {
   }
 }
 
-// pixelClick
+// remove
 
 function remove(e) {
   let pixel = e.target;
