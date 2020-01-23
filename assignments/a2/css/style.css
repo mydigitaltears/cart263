@@ -15,3 +15,8 @@ body {
   background: transparent;
   color: red;
 }
+
+.found {
+  background: blue;
+  color: white;
+}
