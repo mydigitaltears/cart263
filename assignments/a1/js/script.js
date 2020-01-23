@@ -49,29 +49,45 @@ function setup() {
     // Add the element to the body of the page
     document.body.appendChild(pixel);
     // Add a keydown handler for the document
+    document.addEventListener('keydown', clearCanvas);
     // document.addEventListener('keydown', rotate)
     // // Add another keydown handler for the document
     // document.addEventListener('keydown', typed)
     // Add a mouseover handler to the new element
-    pixel.addEventListener('mouseover', addText);
+    // pixel.addEventListener('mouseover', addText);
   }
 }
+
+// interval for rotation on hover
 setInterval(rotatePixel, 100);
 // addText
 
-function addText(e) {
-  let pixel = e.target;
-  pixel.innerHTML = String.fromCharCode(currentKey);
-  pixel.style.textAlign = "center";
-  pixel.style.fontSize = "x-large";
-  pixel.style.fontWeight = "bolder";
+// function addText(e) {
+//   let pixel = e.target;
+//   pixel.innerHTML = String.fromCharCode(currentKey);
+//   pixel.style.textAlign = "center";
+//   pixel.style.fontSize = "x-large";
+//   pixel.style.fontWeight = "bolder";
+// }
+
+function clearCanvas(e) {
+  if (e.keyCode === 32) {
+    let pixels = document.getElementsByClassName("hoveredPixel");
+    for (let i = 0; i<pixels.length; i++){
+
+      pixels[i].style.transform = 'rotate(0deg)';
+      pixels[i].style.backgroundImage = 'none';
+      pixels[i].style.backgroundColor = 'black';
+      pixels[i].setAttribute('class', 'pixel');
+    }
+  }
 }
 
 // typed
 
-function typed(e) {
-  currentKey = e.keyCode;
-}
+// function typed(e) {
+//   currentKey = e.keyCode;
+// }
 // rotate
 
 // function rotate(e) {
@@ -108,27 +124,27 @@ function paint(e) {
   // e.target contains the specific element moused over so let's
   // save that into a variable for clarity.
   let pixel = e.target;
-
+  pixel.setAttribute('class', 'hoveredPixel');
   let rand = Math.floor(Math.random() * NUM_PIXELS);
   pixel.style.backgroundImage = `url(${urls[rand]})`;
   // Set a timeout to call the reset function after a delay
   // When we pass additional parameters (like 'pixel' below) they
   // are passed to the callback function (resetPixel)
-  setTimeout(resetPixel, PIXEL_REVERT_DELAY, pixel);
+  //setTimeout(resetPixel, PIXEL_REVERT_DELAY, pixel);
 }
 
 // resetPixel
 //
 // Takes the provided pixel element and sets its color back to default
-function resetPixel(pixel) {
-  pixel.style.backgroundImage = "none";
-  pixel.style.backgroundColor = "red";
-}
+// function resetPixel(pixel) {
+//   pixel.style.backgroundImage = "none";
+//   pixel.style.backgroundColor = "red";
+// }
 
 function rotatePixel() {
   rotation = rotation + 2;
-  let pixels = document.getElementsByClassName('pixel');
-  for (let i = 0; i<1000; i++){
+  let pixels = document.getElementsByClassName('hoveredPixel');
+  for (let i = 0; i<pixels.length; i++){
     pixels[i].style.transform = `rotate(${rotation}deg)`;
   }
 }
