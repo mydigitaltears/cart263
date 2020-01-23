@@ -41,9 +41,16 @@ function setup() {
     document.body.appendChild(pixel);
     // Add a keydown handler for the document
     document.addEventListener('keydown', rotate)
+    // Add another keydown handler for the document
+    document.addEventListener('keydown', typed)
   }
 }
 
+// typed
+
+function typed(e) {
+  currentKey = e.keyCode;
+}
 // rotate
 
 function rotate(e) {
