@@ -32,9 +32,11 @@ function spanClicked() {
 }
 
 function revealSecret() {
+  console.log("yo");
   if (!$(this).hasClass('found')) {
     $(this).removeClass('secret').addClass('found');
     secretsFound ++;
     $('span.secretsFound').text(secretsFound);
+    $(this).off("mouseover");
   }
 }
