@@ -1,0 +1,14 @@
+body {
+
+}
+
+.pixel {
+  background-color: black;
+  width: 30px;
+  height: 30px;
+  float: left;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border:none;
+}
