@@ -34,12 +34,10 @@ window.onload = setup;
 function setup() {
   // A loop that runs once per pixel we need
   for (let i = 0; i < NUM_PIXELS; i++) {
+    // preload the background images
     urls[i]='https://unsplash.it/30/30/?random'+i;
     // Create a DIV and store it in a variable
     let pixel = document.createElement('div');
-    // preload the background images
-    // pixel.style.backgroundImage = `url(${urls[i]})`;
-    // pixel.style.backgroundImage = `none`;
     // Add the 'pixel' class to the new element
     pixel.setAttribute('class', 'pixel');
     // Add a mouseover handler to the new element
@@ -70,10 +68,15 @@ setInterval(rotatePixel, 100);
 //   pixel.style.fontWeight = "bolder";
 // }
 
+// clearCanvas
+
 function clearCanvas(e) {
+  // get all the pixels painted
   let pixels = document.getElementsByClassName("hoveredPixel");
+  // code for spacebar
   if (e.keyCode === 32) {
     for (let i = 0; i<pixels.length; i++){
+      // reset all of them to their black default value
       pixels[i].style.transform = 'rotate(0deg)';
       pixels[i].style.backgroundImage = 'none';
       pixels[i].style.backgroundColor = 'black';
@@ -125,6 +128,7 @@ function paint(e) {
   let pixel = e.target;
   pixel.setAttribute('class', 'hoveredPixel');
   let rand = Math.floor(Math.random() * NUM_PIXELS);
+  // set the background to a random image of the array of NUM_PIXELS random images
   pixel.style.backgroundImage = `url(${urls[rand]})`;
   // Set a timeout to call the reset function after a delay
   // When we pass additional parameters (like 'pixel' below) they
@@ -138,10 +142,12 @@ function paint(e) {
 // function resetPixel(pixel) {
 //   pixel.style.backgroundImage = "none";
 //   pixel.style.backgroundColor = "red";
-// }
+//
+// rotatePixel
 
 function rotatePixel() {
   rotation = rotation + 2;
+  // rotate all of the painted pixels
   let pixels = document.getElementsByClassName('hoveredPixel');
   for (let i = 0; i<pixels.length; i++){
     pixels[i].style.transform = `rotate(${rotation}deg)`;
