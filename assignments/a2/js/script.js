@@ -2,7 +2,7 @@
 const REVEAL_PROBABILITY = 0.05;
 const INTERVAL_DURATION = 500;
 let $spans;
-let secretsFound;
+let secretsFound = 0;
 let secretsTotal;
 
 $(document).ready(setup);
@@ -13,6 +13,7 @@ function setup() {
   $spans.on("click", spanClicked);
   secretsTotal = $('span.secret').length;
   $('span.totalSecrets').text(secretsTotal);
+  $('span.secret').on("mouseover", revealSecret);
 }
 
 function update() {
@@ -28,4 +29,12 @@ function updateSpan() {
 
 function spanClicked() {
   $(this).removeClass('revealed').addClass('redacted');
+}
+
+function revealSecret() {
+  if (!$(this).hasClass('found')) {
+    $(this).removeClass('secret').addClass('found');
+    secretsFound ++;
+    $('span.secretsFound').text(secretsFound);
+  }
 }
