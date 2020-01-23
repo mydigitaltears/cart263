@@ -44,8 +44,11 @@ function paint(e) {
   // e.target contains the specific element moused over so let's
   // save that into a variable for clarity.
   let pixel = e.target;
-  // Change the background color of the element to white
-  pixel.style.backgroundColor = PAINT_COLOR;
+  // Change the background color of the element to a random color
+  let r = Math.random()*255;
+  let g = Math.random()*255;
+  let b = Math.random()*255;
+  pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
   // Set a timeout to call the reset function after a delay
   // When we pass additional parameters (like 'pixel' below) they
   // are passed to the callback function (resetPixel)
