@@ -38,6 +38,29 @@ function setup() {
     pixel.addEventListener('click', remove);
     // Add the element to the body of the page
     document.body.appendChild(pixel);
+    // Add a keydown handler for the document
+    document.addEventListener('keydown', rotate)
+  }
+}
+
+// rotate
+
+function rotate(e) {
+  if (e.keyCode === 37) {
+    console.log("left");
+    rotation--;
+    let pixels = document.getElementsByClassName('pixel');
+    for (let i = 0; i<1000; i++){
+      pixels[i].style.transform = `rotate(${rotation}deg)`;
+    }
+  }
+  else if (e.keyCode === 39) {
+    console.log("right");
+    rotation++;
+    let pixels = document.getElementsByClassName('pixel');
+    for (let i = 0; i<1000; i++){
+      pixels[i].style.transform = `rotate(${rotation}deg)`;
+    }
   }
 }
 
