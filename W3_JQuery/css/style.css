@@ -1,0 +1,17 @@
+body {
+  font-family: Courier, monospace;
+  width: 800px;
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+.redacted {
+  background: black;
+  color: transparent;
+  user-select: none;
+}
+
+.revealed {
+  background: transparent;
+  color: red;
+}
