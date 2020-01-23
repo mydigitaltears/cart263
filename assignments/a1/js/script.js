@@ -11,19 +11,17 @@ A small DOM-based program for "painting" on div-based pixels.
 
 // Constants
 const NUM_PIXELS = 1000;
-const PIXEL_REVERT_DELAY = 1000;
+const PIXEL_REVERT_DELAY = 2000;
 const DEFAULT_COLOR = 'black';
 const PAINT_COLOR = 'white';
 
 // global variables
 let rotation = 0;
+let rotation2 = 0;
 let currentKey = "";
 let imagesNb = 0;
-let url1 = 'https://unsplash.it/30/30/?random'+1;
-let url2 = 'https://unsplash.it/30/30/?random'+2;
-let url3 = 'https://unsplash.it/30/30/?random'+3;
-let url4 = 'https://unsplash.it/30/30/?random'+4;
-let url = "";
+
+let urls = [];
 
 
 // Set up our starting function for when the page loads
@@ -36,8 +34,12 @@ window.onload = setup;
 function setup() {
   // A loop that runs once per pixel we need
   for (let i = 0; i < NUM_PIXELS; i++) {
+    urls[i]='https://unsplash.it/30/30/?random'+i;
     // Create a DIV and store it in a variable
     let pixel = document.createElement('div');
+    // preload the background images
+    // pixel.style.backgroundImage = `url(${urls[i]})`;
+    // pixel.style.backgroundImage = `none`;
     // Add the 'pixel' class to the new element
     pixel.setAttribute('class', 'pixel');
     // Add a mouseover handler to the new element
@@ -47,14 +49,14 @@ function setup() {
     // Add the element to the body of the page
     document.body.appendChild(pixel);
     // Add a keydown handler for the document
-    document.addEventListener('keydown', rotate)
-    // Add another keydown handler for the document
-    document.addEventListener('keydown', typed)
+    // document.addEventListener('keydown', rotate)
+    // // Add another keydown handler for the document
+    // document.addEventListener('keydown', typed)
     // Add a mouseover handler to the new element
     pixel.addEventListener('mouseover', addText);
   }
 }
-
+setInterval(rotatePixel, 100);
 // addText
 
 function addText(e) {
@@ -72,24 +74,24 @@ function typed(e) {
 }
 // rotate
 
-function rotate(e) {
-  if (e.keyCode === 37) {
-    console.log("left");
-    rotation--;
-    let pixels = document.getElementsByClassName('pixel');
-    for (let i = 0; i<1000; i++){
-      pixels[i].style.transform = `rotate(${rotation}deg)`;
-    }
-  }
-  else if (e.keyCode === 39) {
-    console.log("right");
-    rotation++;
-    let pixels = document.getElementsByClassName('pixel');
-    for (let i = 0; i<1000; i++){
-      pixels[i].style.transform = `rotate(${rotation}deg)`;
-    }
-  }
-}
+// function rotate(e) {
+//   if (e.keyCode === 37) {
+//     console.log("left");
+//     rotation--;
+//     let pixels = document.getElementsByClassName('pixel');
+//     for (let i = 0; i<1000; i++){
+//       pixels[i].style.transform = `rotate(${rotation}deg)`;
+//     }
+//   }
+//   else if (e.keyCode === 39) {
+//     console.log("right");
+//     rotation++;
+//     let pixels = document.getElementsByClassName('pixel');
+//     for (let i = 0; i<1000; i++){
+//       pixels[i].style.transform = `rotate(${rotation}deg)`;
+//     }
+//   }
+// }
 
 // remove
 
@@ -106,30 +108,9 @@ function paint(e) {
   // e.target contains the specific element moused over so let's
   // save that into a variable for clarity.
   let pixel = e.target;
-  // Change the background color of the element to a random color
-  // let r = Math.random()*255;
-  // let g = Math.random()*255;
-  // let b = Math.random()*255;
-  // pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
-  let rand = Math.random()*4;
-  if (rand <= 1) {
-    console.log("1");
-    url = url1;
-  }
-  else if (rand > 1 && rand <= 2) {
-    console.log("2");
-    url = url2;
-  }
-  else if (rand > 2 && rand <= 3) {
-    console.log("3");
-    url = url3;
-  }
-  else {
-    console.log("4");
-    url = url4;
-  }
-  pixel.style.backgroundImage = `url(${url})`;
+  let rand = Math.floor(Math.random() * NUM_PIXELS);
+  pixel.style.backgroundImage = `url(${urls[rand]})`;
   // Set a timeout to call the reset function after a delay
   // When we pass additional parameters (like 'pixel' below) they
   // are passed to the callback function (resetPixel)
@@ -141,5 +122,13 @@ function paint(e) {
 // Takes the provided pixel element and sets its color back to default
 function resetPixel(pixel) {
   pixel.style.backgroundImage = "none";
-  pixel.style.backgroundColor = DEFAULT_COLOR;
+  pixel.style.backgroundColor = "red";
+}
+
+function rotatePixel() {
+  rotation = rotation + 2;
+  let pixels = document.getElementsByClassName('pixel');
+  for (let i = 0; i<1000; i++){
+    pixels[i].style.transform = `rotate(${rotation}deg)`;
+  }
 }
