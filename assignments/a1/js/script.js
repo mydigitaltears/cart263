@@ -31,9 +31,18 @@ function setup() {
     pixel.setAttribute('class', 'pixel');
     // Add a mouseover handler to the new element
     pixel.addEventListener('mouseover', paint);
+    // Add a click handler
+    pixel.addEventListener('click', remove);
     // Add the element to the body of the page
     document.body.appendChild(pixel);
   }
+}
+
+// pixelClick
+
+function remove(e) {
+  let pixel = e.target;
+  pixel.style.opacity = 0;
 }
 
 // paint
