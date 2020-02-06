@@ -31,6 +31,47 @@
 
   <body>
 
+    <div class="start">
+      <h1>Want to win 1000000$?</h1>
+      <button type="button" onclick="startButtonPressed()">Click Here!</button>
+    </div>
+
+    <div class="firstForm">
+      <form>
+        First name:<br>
+        <input type="text" id="firstName" name="firstname"><br>
+        Last name:<br>
+        <input type="text" id="lastName" name="lastname"><br>
+        <input type="button" onclick="firstFormButtonPressed()" value="Submit">
+      </form>
+    </div>
+
+    <div class="informations">
+      <p id="p1"></p>
+      <p id="p2"></p>
+    </div>
+
+    <div class="ad">
+      <video id="myVideo" src="assets/videos/combo.mp4" width="640" height="480" >
+      </video>
+    </div>
+
+    <div class="secondForm">
+      <h1>Please select your favorite type of food!</h1>
+      <form id="favoriteFood">
+        <input type="radio" id="libanese" name="favoriteFood" value="libanese" checked> Libanese<br>
+        <input type="radio" id="italian" name="favoriteFood" value="italian"> Italian<br>
+        <input type="radio" id="indian" name="favoriteFood" value="indian"> Indian<br>
+        <input type="radio" id="mexican" name="favoriteFood" value="mexican"> Mexican<br>
+        <input type="button" onclick="secondFormButtonPressed()" value="Submit">
+      </form>
+    </div>
+
+    <div class="travelAd">
+      <h1></h1>
+      <p></p>
+      <button type="button" onclick="travelButtonPressed()">Click Here!</button>
+    </div>
 
   </body>
 

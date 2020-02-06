@@ -1,3 +1,19 @@
 body {
 
 }
+
+.firstForm {
+  display: none;
+}
+
+.secondForm {
+  display: none;
+}
+
+.ad {
+  display: none;
+}
+
+.travelAd {
+  display: none;
+}
