@@ -76,6 +76,7 @@ form {
   display: none;
 }
 
+/* Hides the x in the dialog box */
 .ui-dialog-titlebar-close {
     visibility: hidden;
 }

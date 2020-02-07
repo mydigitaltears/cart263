@@ -53,14 +53,11 @@ function setup() {
   counter = $(".counter");
   body = $("body");
   countdown = $(".countdown");
+  // interval to make a flashy random color background
   startInterval = setInterval(backgroundFlash, 100);
 }
 
-function incrementCount() {
-  count ++;
-  counter.text(`Step ${count} out of ${maxCount}`);
-}
-
+// random color background
 function backgroundFlash() {
   let r = Math.random()*255;
   let g = Math.random()*255;
@@ -68,14 +65,31 @@ function backgroundFlash() {
   body.css("background-color", `rgb(${r},${g},${b})`)
 }
 
+// increment the step count on top
+function incrementCount() {
+  count ++;
+  counter.text(`Step ${count} out of ${maxCount}`);
+}
+
+// increment the ad countdown
+function adCountDown() {
+  adCount ++;
+  countdown.text(`${adCount} / ${adDuration}`)
+}
+
+// function called the first button is pressed
 function startButtonPressed() {
+  // clear the flashy background interval
   clearInterval(startInterval);
-  body.css("background-color", `lightblue`);
+  // sets the background to the vaporwave picture
   body.css("background-image",'url("./assets/images/vapor.jpg")');
+  // hide the div from the start
   start.css("display", "none");
+  // show the first form and the counter
   firstForm.css("display", "block");
   counter.css("display", "block");
   incrementCount();
+  // modal dialog box
   $( "#form1" ).dialog({
     dialogClass: "no-close",
     modal: "true",
@@ -90,20 +104,27 @@ function startButtonPressed() {
   });
 }
 
+// function called when the first form is submited
 function firstFormButtonPressed() {
+  // record the first and last name values
   firstName = $("#firstName").val();
   lastName = $("#lastName").val();
+  // check if they are empty
   if(firstName === "" || lastName === ""){
     alert("Please enter your informations!")
   }
+  // if both values are not empty go to the next step
   else {
     incrementCount();
+    // hide the first form
     firstForm.css("display", "none");
+    // show the video ad and the countdown at the bottom
     ad.css("display", "block");
     countdown.css("display", "block");
     countdown.text(`${adCount} / ${adDuration}`);
     p1.text(`Welcome ${firstName} ${lastName}!`);
     p2.text(`Thank you for your patience, this won't be long!`);
+    // modal dialog box
     $( "#ad1" ).dialog({
       dialogClass: "no-close",
       modal: "true",
@@ -111,9 +132,12 @@ function firstFormButtonPressed() {
         {
           text: "OK",
           click: function() {
+            // only starts playing the video when ok is clicked
             $( this ).dialog( "close" );
             vid[0].play();
+            // go to the next step after 10 seconds
             setTimeout(newForm, 10000);
+            // countdown to track time
             countdownInterval = setInterval(adCountDown, 1000);
           }
         }
@@ -122,15 +146,20 @@ function firstFormButtonPressed() {
   }
 }
 
+// function called after the video ad is watched
 function newForm() {
   incrementCount();
+  // pause the video and clear the countdown interval
   vid[0].pause();
   clearInterval(countdownInterval);
+  // hide the ad and the countdown and show the second form
   countdown.css("display", "none");
   ad.css("display", "none");
   informations.css("display", "none");
   secondForm.css("display", "block");
+  // now the background image is glitched
   body.css("background-image",'url("./assets/images/vaporG.png")');
+  // modal dialog box
   $( "#form2" ).dialog({
     dialogClass: "no-close",
     modal: "true",
@@ -145,10 +174,14 @@ function newForm() {
   });
 }
 
+// function called when the second form is submited
 function secondFormButtonPressed() {
   incrementCount();
+  // hide the second form
   secondForm.css("display", "none");
+  // record the answer of the form
   favoriteFood = $("input:checked").val();
+  // call a specific function depending on the answer
   if(favoriteFood === "libanese") {
     libanese();
   }
@@ -161,11 +194,12 @@ function secondFormButtonPressed() {
   else if(favoriteFood === "mexican") {
     mexican();
   }
+  // show the next step
   travelAd.css("display", "block");
 }
 
+// The next functions are the same but the country name and the background change
 function libanese() {
-  console.log("libanese");
   $(".travelAd h1").text(`${firstName}, Lebanon awaits you!`);
   $(".travelAd p").text("Click here for more informations");
   body.css("background-image",'url("./assets/images/lebanon.png")');
@@ -174,7 +208,6 @@ function libanese() {
 }
 
 function italian() {
-  console.log("italian");
   $(".travelAd h1").text(`${firstName}, Italy awaits you!`);
   $(".travelAd p").text("Click here for more informations");
   body.css("background-image",'url("./assets/images/italy.png")');
@@ -183,7 +216,6 @@ function italian() {
 }
 
 function indian() {
-  console.log("indian");
   $(".travelAd h1").text(`${firstName}, India awaits you!`);
   $(".travelAd p").text("Click here for more informations");
   body.css("background-image",'url("./assets/images/india.png")');
@@ -192,7 +224,6 @@ function indian() {
 }
 
 function mexican() {
-  console.log("mexican");
   $(".travelAd h1").text(`${firstName}, Mexico awaits you!`);
   $(".travelAd p").text("Click here for more informations");
   body.css("background-image",'url("./assets/images/mexico.png")');
@@ -200,11 +231,7 @@ function mexican() {
   $(".travelAd").css("text-shadow", "2px 2px green");
 }
 
+// Reload the page when the last button is pressed
 function travelButtonPressed() {
   location.reload();
-}
-
-function adCountDown() {
-  adCount ++;
-  countdown.text(`${adCount} / ${adDuration}`)
 }
