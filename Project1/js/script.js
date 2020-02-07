@@ -70,7 +70,8 @@ function backgroundFlash() {
 
 function startButtonPressed() {
   clearInterval(startInterval);
-  body.css("background-color", `lightblue`)
+  body.css("background-color", `lightblue`);
+  body.css("background-image",'url("./assets/images/vapor.jpg")');
   start.css("display", "none");
   firstForm.css("display", "block");
   counter.css("display", "block");
@@ -100,9 +101,9 @@ function firstFormButtonPressed() {
     firstForm.css("display", "none");
     ad.css("display", "block");
     countdown.css("display", "block");
-    countdown.text(`${adCount} / ${adDuration}`)
-    p1.text(`Welcome ${firstName} ${lastName}!`)
-    p2.text(`Thank you for your patience, this won't be long!`)
+    countdown.text(`${adCount} / ${adDuration}`);
+    p1.text(`Welcome ${firstName} ${lastName}!`);
+    p2.text(`Thank you for your patience, this won't be long!`);
     $( "#ad1" ).dialog({
       dialogClass: "no-close",
       modal: "true",
@@ -129,6 +130,7 @@ function newForm() {
   ad.css("display", "none");
   informations.css("display", "none");
   secondForm.css("display", "block");
+  body.css("background-image",'url("./assets/images/vaporG.png")');
   $( "#form2" ).dialog({
     dialogClass: "no-close",
     modal: "true",
@@ -166,7 +168,7 @@ function libanese() {
   console.log("libanese");
   $(".travelAd h1").text(`${firstName}, Lebanon awaits you!`);
   $(".travelAd p").text("Click here for more informations");
-  body.css("background-image",'url("https://res.cloudinary.com/sagacity/image/upload/c_crop,h_2667,w_4000,x_0,y_0/c_limit,dpr_3.0,f_auto,fl_lossy,q_80,w_500/shutterstock_600019766_yjcu5f.jpg")');
+  body.css("background-image",'url("./assets/images/lebanon.png")');
   $(".travelAd").css("background-color", "background-color: rgba(20,140,255,0.8)");
   $(".travelAd").css("text-shadow", "2px 2px orange");
 }
@@ -175,7 +177,7 @@ function italian() {
   console.log("italian");
   $(".travelAd h1").text(`${firstName}, Italy awaits you!`);
   $(".travelAd p").text("Click here for more informations");
-  body.css("background-image",'url("https://indietravelpodcast.com/wp-content/uploads/2016/04/Dollarphotoclub_italy-1920x1280.jpg")');
+  body.css("background-image",'url("./assets/images/italy.png")');
   $(".travelAd").css("background-color", "background-color: rgba(0,200,80,0.8)");
   $(".travelAd").css("text-shadow", "2px 2px red");
 }
@@ -184,7 +186,7 @@ function indian() {
   console.log("indian");
   $(".travelAd h1").text(`${firstName}, India awaits you!`);
   $(".travelAd p").text("Click here for more informations");
-  body.css("background-image",'url("https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg")');
+  body.css("background-image",'url("./assets/images/india.png")');
   $(".travelAd").css("background-color", "background-color: rgba(200,140,255,0.8)");
   $(".travelAd").css("text-shadow", "2px 2px orange");
 }
@@ -193,7 +195,7 @@ function mexican() {
   console.log("mexican");
   $(".travelAd h1").text(`${firstName}, Mexico awaits you!`);
   $(".travelAd p").text("Click here for more informations");
-  body.css("background-image",'url("https://cdn.britannica.com/60/92960-050-327CF926/pyramid-Mayan-Chichen-Itza-Mex.jpg")');
+  body.css("background-image",'url("./assets/images/mexico.png")');
   $(".travelAd").css("background-color", "background-color: rgba(255,100,40,0.8)");
   $(".travelAd").css("text-shadow", "2px 2px green");
 }
