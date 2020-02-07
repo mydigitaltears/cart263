@@ -2,6 +2,11 @@ body {
   text-align: center;
   margin-top: 100px;
   background-position: center top;
+  font-family: helvetica;
+}
+
+.counter {
+  display: none;
 }
 
 .firstForm {
@@ -18,6 +23,10 @@ body {
 }
 
 .travelAd {
+  display: none;
+}
+
+.countdown {
   display: none;
 }
 
@@ -49,4 +58,20 @@ form {
   position: absolute;
   left: 50%;
   margin-left: -50px;
+}
+
+#form1 {
+  display: none;
+}
+
+#ad1 {
+  display: none;
+}
+
+#form2 {
+  display: none;
+}
+
+.ui-dialog-titlebar-close {
+    visibility: hidden;
 }
