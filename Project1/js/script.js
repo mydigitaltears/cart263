@@ -22,6 +22,7 @@ let travelAd;
 let counter;
 let body;
 let countdown;
+let audioError;
 
 // form input variables
 let firstName;
@@ -53,6 +54,7 @@ function setup() {
   counter = $(".counter");
   body = $("body");
   countdown = $(".countdown");
+  audioError = $("#errorAudio");
   // interval to make a flashy random color background
   startInterval = setInterval(backgroundFlash, 100);
 }
@@ -231,7 +233,22 @@ function mexican() {
   $(".travelAd").css("text-shadow", "2px 2px green");
 }
 
-// Reload the page when the last button is pressed
+// page crashes and refresh when last button is pressed
 function travelButtonPressed() {
-  location.reload();
+  // hide the travel ad + top counter
+  travelAd.css("display", "none");
+  counter.css("display", "none");
+  // background turns into a blue screen
+  body.css("background-image", 'url("https://media.giphy.com/media/Q61LJj43H48z1FIK4X/giphy.gif")');
+  // set interval for error sound
+  setInterval(errorSound, 100);
+  // refreshes after 4 seconds
+  setTimeout(function(){location.reload(); }, 4000)
+}
+
+// error sounds
+function errorSound() {
+  audioError[0].play();
+  // cloneNode in order to play the sound twice at the same time
+  audioError[0].cloneNode(true).play();
 }
