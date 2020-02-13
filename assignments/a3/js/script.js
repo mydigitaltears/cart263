@@ -165,8 +165,6 @@ let buttons = [];
 // How many possible answers there are per round
 const NUM_OPTIONS = 5;
 
-var commands = {'hi': helloFunction};
-
 // Get setup!
 $(document).ready(setup);
 
@@ -289,7 +287,11 @@ function start() {
   console.log("start");
   $('#click-to-start').remove();
   let giveup = {'i give up': giveupFunction};
+  let sayagain = {'say it again': sayagainFunction};
+  let answer = {'i think it is *tag': answerFunction};
   annyang.addCommands(giveup);
+  annyang.addCommands(sayagain);
+  annyang.addCommands(answer);
   annyang.start();
 }
 
@@ -300,4 +302,28 @@ function giveupFunction() {
     $('.guess').remove();
     newRound();
   }, 2000)
+}
+
+function sayagainFunction() {
+  console.log("say again");
+  sayBackwards($correctButton.text());
+}
+
+function answerFunction(tag) {
+  // If the button they clicked on has the same label as
+  // the correct button, it must be the right answer...
+  if (tag === $correctButton.text()) {
+    console.log("right");
+    // Remove all the buttons
+    $('.guess').remove();
+    // Start a new round
+    setTimeout(newRound, 1000);
+  }
+  else {
+    console.log("wrong");
+    // Otherwise they were wrong, so shake the clicked button
+    $('.guess').effect('shake');
+    // And say the correct animal again to "help" them
+    sayBackwards($correctButton.text());
+  }
 }
