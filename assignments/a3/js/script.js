@@ -320,9 +320,12 @@ function answerFunction(tag) {
     setTimeout(newRound, 1000);
   }
   else {
+    for(let i = 0; i < NUM_OPTIONS; i++) {
+      if (buttons[i].text() === tag) {
+        buttons[i].effect('shake');
+      }
+    }
     console.log("wrong");
-    // Otherwise they were wrong, so shake the clicked button
-    $('.guess').effect('shake');
     // And say the correct animal again to "help" them
     sayBackwards($correctButton.text());
   }
