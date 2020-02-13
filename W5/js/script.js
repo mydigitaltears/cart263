@@ -143,11 +143,17 @@ const NUM_OPTIONS = 5;
 
 let $correctButton;
 
+let commands = {'hi': helloFunction};
+
 
 $(document).ready(setup);
 
 function setup() {
   newRound();
+  if (annyang) {
+    // Use a click event to start so we don't run into trouble for audio
+    $(document).on('click', start);
+  }
 }
 
 function addButton(label) {
@@ -194,4 +200,8 @@ function sayBackwards(text) {
     rate: Math.random()
   };
   responsiveVoice.speak(backwardsText,'UK English Male',options);
+}
+
+function helloFunction() {
+  console.log("hey!!");
 }
