@@ -165,6 +165,8 @@ let buttons = [];
 // How many possible answers there are per round
 const NUM_OPTIONS = 5;
 
+var commands = {'hi': helloFunction};
+
 // Get setup!
 $(document).ready(setup);
 
@@ -173,6 +175,10 @@ $(document).ready(setup);
 // We just start a new round right away!
 function setup() {
   newRound();
+  if (annyang) {
+    // Use a click event to start so we don't run into trouble for audio
+    $(document).on('click', start);
+  }
 }
 
 // newRound()
@@ -274,4 +280,24 @@ function handleGuess() {
 function getRandomElement(array) {
   let element = array[Math.floor(Math.random() * array.length)];
   return element;
+}
+
+// start()
+//
+// Initialise eliza and say her first line
+function start() {
+  console.log("start");
+  $('#click-to-start').remove();
+  let giveup = {'i give up': giveupFunction};
+  annyang.addCommands(giveup);
+  annyang.start();
+}
+
+function giveupFunction() {
+  console.log("givup:(");
+  $correctButton.css('background', 'yellow');
+  setTimeout(() => {
+    $('.guess').remove();
+    newRound();
+  }, 2000)
 }
