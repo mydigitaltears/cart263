@@ -158,6 +158,14 @@ let animals = [
   "zebra"
 ];
 
+let insults = [
+  "you're dumb",
+  "looser",
+  "get a life",
+  "you're a waste",
+  "stupid"
+]
+
 // We need to track the correct button for each round
 let $correctButton;
 // We also track the set of buttons
@@ -269,6 +277,14 @@ function handleGuess() {
   else {
     // Otherwise they were wrong, so shake the clicked button
     $(this).effect('shake');
+    // say an insult
+    let randomNb = Math.floor(Math.random()*insults.length);
+    let randomInsult = insults[randomNb];
+    responsiveVoice.speak(randomInsult, 'UK English Male', {
+      pitch: 0.1,
+      rate: 2.0
+    });
+    //sayBackwards(randomInsult)
     // And say the correct animal again to "help" them
     sayBackwards($correctButton.text());
   }
