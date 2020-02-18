@@ -186,10 +186,12 @@ function setup() {
 function newRound() {
   // We empty the buttons array for the new round
   buttons = [];
+  // shuffle the animals array
+  shuffle(animals);
   // Loop for each option we'll offter
   for (let i = 0; i < NUM_OPTIONS; i++) {
-    // Choose the answer text randomly from the animals array
-    let answer = getRandomElement(animals);
+    // Choose the first five animals in the shuffled array
+    let answer = animals[i];
     // Add a button with this label
     let $button = addButton(answer);
     // Add this button to the buttons array
@@ -278,6 +280,18 @@ function handleGuess() {
 function getRandomElement(array) {
   let element = array[Math.floor(Math.random() * array.length)];
   return element;
+}
+
+
+// shuffle()
+//
+// Shuffle the array (code found online)
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
 }
 
 // start()
