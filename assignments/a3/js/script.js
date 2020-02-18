@@ -355,6 +355,13 @@ function answerFunction(tag) {
         buttons[i].effect('shake');
       }
     }
+    // say an insult
+    let randomNb = Math.floor(Math.random()*insults.length);
+    let randomInsult = insults[randomNb];
+    responsiveVoice.speak(randomInsult, 'UK English Male', {
+      pitch: 0.1,
+      rate: 2.0
+    });
     console.log("wrong");
     // And say the correct animal again to "help" them
     sayBackwards($correctButton.text());
