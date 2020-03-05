@@ -1,3 +1,48 @@
 body {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  background-color: orange;
+}
 
+.tvC {
+  background-color: grey;
+  width: 600px;
+  height: 355px;
+  margin-top: 200px;
+  position: absolute;
+  left: 50%;
+  margin-left: -280px;
+}
+
+.tv {
+  padding: 0px;
+  margin: 20px;
+  background-color: black;
+  text-align: center;
+  width: 560px;
+  height: 315px;
+  position: absolute;
+  left: 50%;
+  margin-left: -280px;
+}
+
+.youtubeC {
+  position:fixed;
+}
+
+.onC {
+  position:fixed;
+}
+
+.offC {
+  position:fixed;
+}
+
+.babyC {
+  position: absolute;
+}
+
+#button {
+  margin-top: 600px;
 }

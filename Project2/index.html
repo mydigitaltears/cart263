@@ -23,6 +23,8 @@
 
     <!-- Library script(s) -->
     <!-- Add your required libraries here either as local files or CDN-hosted files -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script> -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
 
 
     <!-- My script(s) -->
@@ -31,6 +33,40 @@
 
   <body>
 
+    <div class="tvC">
+
+      <div class="tv">
+
+        <div class="youtubeC">
+          <!-- <iframe id="youtube"
+            width="560"
+            height="315"
+            src=""
+            frameborder="0"
+            allow="autoplay;"
+            allowfullscreen>
+          </iframe> -->
+          <div id="video-placeholder"></div>
+          <script src="https://www.youtube.com/iframe_api"></script>
+        </div>
+
+        <div class="offC">
+          <video id="off" src="assets/videos/off2.mp4" width="560" height="315" >
+          </video>
+        </div>
+        <div class="onC">
+          <video id="on" src="assets/videos/on.mp4" width="560" height="315" >
+          </video>
+        </div>
+        <div class="babyC">
+          <img id="baby" src="assets/images/baby.png" width="40%" alt="">
+        </div>
+
+      </div>
+
+    </div>
+
+    <button id="button" onclick="tvPower()" type="button" name="button">Power</button>
 
   </body>
 
