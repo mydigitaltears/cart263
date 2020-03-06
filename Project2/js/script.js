@@ -2,8 +2,30 @@
 
 /********************************************************************
 
-Title of Project
-Xavier Touikan
+Project 2
+By: Xavier Touikan
+
+ARTIST STATEMENT:
+
+  I had a lot of trouble finding inspiration for this project, most
+of my ideas had a level of interaction way too complicated for a web
+project. In the end I wanted to talk about some of the videos that
+seems like they are targeted for childrens but after a little while
+they show some terrifying images and sounds / messages.
+
+  The concept of my project is very simple, a parent asks the user
+(the kid) if he/she wants to watch tv. If the kid says yes, the parent
+turns the tv on and after a few seconds there is a creepy baby that
+appears on screen and says a mean message. The kid starts crying until
+the creepy baby disapears. After the kid cries three times the parent
+says "that's enough!" and turns off the tv.
+
+  The user can also use the power button to turn the tv on and off
+or use the following commands: "turn it on" and "turn it off"
+
+  I wanted to also make a shoutout to parents who only stars caring
+when their children starts crying too much, but don't even look at
+what they are watching.
 
 *********************************************************************/
 
