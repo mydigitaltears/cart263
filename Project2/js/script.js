@@ -22,13 +22,15 @@ let creepyTexts = [
   "You should not exist",
   "Your parents are going to abbandon you",
   "I will eat you alive",
-  "You look like shit"
+  "You look like shit",
+  "You have no friends",
+  "Nobody likes you",
+  "You're disgusting"
 ];
 
 let languages = [
   "UK English Female",
   "UK English Male",
-  "US English Female",
   "US English Male",
   "French Female",
   "French Male",
@@ -46,6 +48,12 @@ let baby;
 let babyC;
 let power = false;
 let myT;
+let start;
+let tvC;
+let button;
+let kid;
+let kidC;
+let tears;
 
 $(document).ready(setup);
 
@@ -73,6 +81,11 @@ function initialize(){
 }
 
 function setup() {
+  if (annyang) {
+    // Use a click event to start so we don't run into trouble for audio
+    $(document).on('click', starty);
+  }
+
   body = $("body");
   youtube = $("#youtube");
   youtubeC = $(".youtubeC");
@@ -85,8 +98,16 @@ function setup() {
   onC.css("display","none");
   baby = $("#baby");
   babyC = $(".babyC");
-  baby.toggle("slide");
+  baby.hide("slide");
   babyC.css("display","none")
+  start = $("#start");
+  tvC = $(".tvC");
+  button = $("#button");
+  kid = $("#kid");
+  kidC = $(".kidC");
+  kidC.css("display","none");
+  tears = $("#tears");
+  tears.hide();
 }
 
 function tvPower() {
@@ -98,6 +119,7 @@ function tvPower() {
     off[0].play();
     clearTimeout(myT);
     power = false;
+    button.css("background-color","red");
   }
   else if(power == false) {
     onC.css("display","block");
@@ -110,6 +132,7 @@ function tvPower() {
     offC.css("display","none");
     power = true;
     loop();
+    button.css("background-color","#00ff2a");
   }
 }
 
@@ -122,7 +145,10 @@ function creep() {
       onend: function(){
         player.setVolume(25)
         if(baby.is(":visible")==true){
-              baby.toggle("slide");
+          baby.hide("slide");
+          setTimeout(function(){
+            tears.hide("clip");
+          }, 1000);
         }
       }
     };
@@ -133,7 +159,10 @@ function creep() {
     babyC.css("display","block");
     // baby.effect("shake");
     if(baby.is(":visible")==false){
-          baby.toggle("slide");
+      baby.show("slide");
+      setTimeout(function(){
+        tears.show("clip");
+      }, 500);
     }
   }
 }
@@ -149,4 +178,62 @@ function loop() {
         }
       }, rand);
     }
-};
+}
+
+function askTV() {
+  responsiveVoice.speak(
+    "Hey sweetie, would you like to watch some tv?",
+    "US English Female"
+  );
+  start.css("display","none");
+  tvC.css("display","block");
+  button.css("display","block");
+  kidC.css("display","block");
+}
+
+function starty() {
+  console.log("start");
+  let yes = {'yes': yesFunction};
+  let off = {'turn it off': offFunction};
+  let on = {'turn it on': yesFunction};
+  annyang.addCommands(yes);
+  annyang.addCommands(off);
+  annyang.addCommands(on);
+  annyang.start();
+}
+
+function yesFunction() {
+  if(power==false){
+    responsiveVoice.speak(
+      "Okay! Let me turn it on for you.",
+      "US English Female",
+      {onend: function(){
+        tvPower();
+      }}
+    );
+  }
+  else if(power==true){
+    responsiveVoice.speak(
+      "The tv is already on!",
+      "US English Female"
+    );
+  }
+}
+
+function offFunction(){
+  if(power==true){
+    responsiveVoice.speak(
+      "Okay! Let me turn it off.",
+      "US English Female",
+      {onend: function(){
+        tvPower();
+      }}
+    );
+  }
+  else if(power==false){
+    responsiveVoice.speak(
+      "The tv is already off.",
+      "US English Female"
+    );
+  }
+}

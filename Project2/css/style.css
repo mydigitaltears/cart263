@@ -9,10 +9,11 @@ body {
   background-color: grey;
   width: 600px;
   height: 355px;
-  margin-top: 200px;
+  margin-top: 100px;
   position: absolute;
   left: 50%;
   margin-left: -280px;
+  display: none;
 }
 
 .tv {
@@ -43,6 +44,61 @@ body {
   position: absolute;
 }
 
+.kidC {
+  position: absolute;
+  margin-top: 500px;
+  width: 100%;
+}
+
+#kid {
+  width: 200px;
+  z-index: 1;
+  position: fixed;
+  left: 50%;
+  margin-left: -100px;
+}
+
+#tears {
+  position: fixed;
+  z-index: -1;
+  left: 50%;
+  margin-left: -250px;
+  margin-top: -20px;
+}
+
+
 #button {
-  margin-top: 600px;
+  margin-top: 338px;
+  margin-left: 20px;
+  display: none;
+  position: absolute;
+  font-size: 7px;
+  background-color: red;
+  color: black;
+  border:0;
+  border-radius: 10px;
+}
+
+#button:active {
+  background-color: white;
+}
+
+#start {
+  margin-top: 300px;
+  width: 200px;
+  height: 100px;
+  font-size: 40px;
+  background-color: grey;
+  border-radius: 40px;
+  border: 1;
+  border-width: 5px;
+  color: white;
+}
+
+#start:hover {
+  background-color: red;
+}
+
+#start:active {
+  background-color: #00ff2a;
 }
