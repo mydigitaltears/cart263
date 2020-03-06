@@ -33,42 +33,40 @@
   </head>
 
   <body>
-
+    <!-- Global tv container -->
     <div class="tvC">
-
+      <!-- Screen container -->
       <div class="tv">
-
+        <!-- Youtube iframe container -->
         <div class="youtubeC">
-          <!-- <iframe id="youtube"
-            width="560"
-            height="315"
-            src=""
-            frameborder="0"
-            allow="autoplay;"
-            allowfullscreen>
-          </iframe> -->
           <div id="video-placeholder"></div>
           <script src="https://www.youtube.com/iframe_api"></script>
         </div>
-
+        <!-- off video transition container -->
         <div class="offC">
           <video id="off" src="assets/videos/off2.mp4" width="560" height="315" >
           </video>
         </div>
+        <!-- on video transition container -->
         <div class="onC">
           <video id="on" src="assets/videos/on.mp4" width="560" height="315" >
           </video>
         </div>
+        <!-- creepy baby image container -->
         <div class="babyC">
           <img id="baby" src="assets/images/baby.png" width="40%" alt="">
         </div>
       </div>
+      <!-- Tv power button -->
       <button id="button" onclick="tvPower()" type="button" name="button">Power</button>
     </div>
 
+    <!-- start button at begining -->
     <button id="start" onclick="askTV()" type="button" name="button">Start</button>
+    <!-- Kid image container -->
     <div class="kidC">
       <img id="kid" src="assets/images/kid.png" width="40%" alt="">
+      <!-- gif of tears iframe -->
       <iframe
         id="tears"
         src="https://giphy.com/embed/xl1L1vqpY5Lug9iRN7"
@@ -77,6 +75,10 @@
         frameBorder="0"
       >
       </iframe>
+      <!-- Kid crying sound -->
+      <audio id="crying">
+        <source src="assets/sounds/cry.mp3" type="audio/mpeg">
+      </audio>
     </div>
 
   </body>

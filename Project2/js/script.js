@@ -5,20 +5,10 @@
 Title of Project
 Xavier Touikan
 
-Ideas:
-  - Play as a bot seeking for optimal attention spam
-  - Play as a parent who don't care about child
-  - Play as child seeking dopamine
-  - Play as youtube
-  - Play as a content creator
-  - Play as a bot designer
-  - Litteraly monetize attention spam
-  - Paid worker moderating content
-  - Parent looking away
 *********************************************************************/
 
+// Mean texts
 let creepyTexts = [
-  // "You should kill yourself",
   "You should not exist",
   "Your parents are going to abbandon you",
   "I will eat you alive",
@@ -28,6 +18,7 @@ let creepyTexts = [
   "You're disgusting"
 ];
 
+// Variety of languages for the responsive voices
 let languages = [
   "UK English Female",
   "UK English Male",
@@ -37,28 +28,45 @@ let languages = [
   "Italian Female",
 ]
 
+// DOM variables
 let body;
+// Youtube player and container
 let youtube;
 let youtubeC;
+// Turn off player and container
 let off;
 let offC;
+// Turn on player and container
 let on;
 let onC
+// Creepy baby image and container
 let baby;
 let babyC;
-let power = false;
-let myT;
+// Start button
 let start;
+// Tv container
 let tvC;
+// Power button
 let button;
+// Kid image and container
 let kid;
 let kidC;
+// Tears gif
 let tears;
+// Crying sound
+let crying;
+
+// Other variables
+let cryCount = 0;
+let power = false;
+// Random interval for creepy interventions
+let myT;
 
 $(document).ready(setup);
 
+// Youtube player (code mostly taken online)
 let player;
-
+// ChuChuTV livestream used as a tv channel
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('video-placeholder', {
         width: 560,
@@ -73,103 +81,166 @@ function onYouTubeIframeAPIReady() {
         }
     });
 }
-
+// Initialize the player while muted and hidden
 function initialize(){
   player.playVideo();
   player.mute();
   player.setVolume(25);
 }
 
+// Setup()
 function setup() {
+  // Initialize annyang
   if (annyang) {
     // Use a click event to start so we don't run into trouble for audio
-    $(document).on('click', starty);
+    $(document).on('click', annyangInit);
   }
-
+  // Associating the DOM elements to variables
   body = $("body");
   youtube = $("#youtube");
   youtubeC = $(".youtubeC");
-  youtubeC.css("display","none");
   off = $("#off");
   offC = $(".offC");
-  offC.css("display","none");
   on = $("#on");
   onC = $(".onC");
-  onC.css("display","none");
   baby = $("#baby");
   babyC = $(".babyC");
-  baby.hide("slide");
-  babyC.css("display","none")
   start = $("#start");
   tvC = $(".tvC");
   button = $("#button");
   kid = $("#kid");
   kidC = $(".kidC");
-  kidC.css("display","none");
   tears = $("#tears");
-  tears.hide();
+  // I don't know why sound was not working with Jquery selection
+  crying = document.getElementById("crying");
+  // Hiding some elements
+  babyC.css("display","none")
+  onC.css("display","none");
+  offC.css("display","none");
+  youtubeC.css("display","none");
+  kidC.css("display","none");
+  // Hiding elements that will use jquery effects
+  baby.hide("slide");
+  tears.hide("clip");
 }
 
+// anyangInit()
+function annyangInit() {
+  // Initializing annyang commands
+  // We have: yes, turn it on, turn it off
+  let yes = {'yes': yesFunction};
+  let off = {'turn it off': offFunction};
+  let on = {'turn it on': yesFunction};
+  annyang.addCommands(yes);
+  annyang.addCommands(off);
+  annyang.addCommands(on);
+  annyang.start();
+}
+
+// askTV: Called after pressing the start button
+function askTV() {
+  // Voice ask if user wants to watch TV
+  responsiveVoice.speak(
+    "Hey sweetie, would you like to watch some tv?",
+    "US English Female"
+  );
+  // Displaying the tv and hiding the start button
+  start.css("display","none");
+  tvC.css("display","block");
+  button.css("display","block");
+  kidC.css("display","block");
+}
+
+// yesFunction(): Called called when the user says "yes" or "turn it on"
+function yesFunction() {
+  // if the tv is off, turns it on
+  if(power==false){
+    responsiveVoice.speak(
+      "Okay! Let me turn it on for you.",
+      "US English Female",
+      {onend: function(){
+        tvPower();
+      }}
+    );
+  }
+  // do nothing if the tv is already on
+  else if(power==true){
+    responsiveVoice.speak(
+      "The tv is already on!",
+      "US English Female"
+    );
+  }
+}
+// offFunction(): Called when the user says "turn it off"
+function offFunction(){
+  // if the tv is on, turns it off
+  if(power==true){
+    responsiveVoice.speak(
+      "Okay! Let me turn it off.",
+      "US English Female",
+      {onend: function(){
+        tvPower();
+      }}
+    );
+  }
+  // do nothing if the tv is already off
+  else if(power==false){
+    responsiveVoice.speak(
+      "The tv is already off.",
+      "US English Female"
+    );
+  }
+}
+
+// tvPower(): Function that turns the TV on and off
 function tvPower() {
+  // if the tv is on, turns it off
   if(power == true){
+    // hiding and showing some elements
     offC.css("display","block");
     youtubeC.css("display","none");
     babyC.css("display","none")
+    // muting the youtube iframe
     player.mute();
+    // plays the transition video
     off[0].play();
+    // clears the random interval for the creepy baby
     clearTimeout(myT);
+    // sets the power boolean to false
     power = false;
+    // change the power button color
     button.css("background-color","red");
+    // hide baby tears
+    tears.hide("clip");
   }
+  // if the tv is off, turns it on
   else if(power == false) {
+    // shows and plays the video transition
     onC.css("display","block");
     on[0].play();
+    // starts displaying and unmuting the youtube iframe after the transition video
+    // (Could have used an onend function for this!)
     setTimeout(function() {
       youtubeC.css("display","block");
       onC.css("display","none");
       player.unMute();
     }, 1100)
+    // hiding the video transition
     offC.css("display","none");
+    // sets the power boolean to true
     power = true;
+    // loop function for the random creepy baby intervals
     loop();
+    // change the power button color
     button.css("background-color","#00ff2a");
   }
 }
 
-function creep() {
-  if(power==true) {
-    let options = {
-      pitch: Math.random(),
-      rate: 1,
-      volume: 1,
-      onend: function(){
-        player.setVolume(25)
-        if(baby.is(":visible")==true){
-          baby.hide("slide");
-          setTimeout(function(){
-            tears.hide("clip");
-          }, 1000);
-        }
-      }
-    };
-    player.setVolume(5);
-    let text = creepyTexts[Math.floor(Math.random() * creepyTexts.length)];
-    let language = languages[Math.floor(Math.random() * languages.length)];
-    responsiveVoice.speak(text,language,options);
-    babyC.css("display","block");
-    // baby.effect("shake");
-    if(baby.is(":visible")==false){
-      baby.show("slide");
-      setTimeout(function(){
-        tears.show("clip");
-      }, 500);
-    }
-  }
-}
-
+// loop(): Function that sets random intervals for the creepy baby interventions
 function loop() {
+    // random + a minimum of 7 seconds
     var rand = Math.floor(Math.random() * 5000) + 7000;
-    console.log(rand);
+    // only sets a new timeout is the tv is on
     if(power == true){
       myT = setTimeout(function() {
         if(power == true) {
@@ -180,60 +251,68 @@ function loop() {
     }
 }
 
-function askTV() {
-  responsiveVoice.speak(
-    "Hey sweetie, would you like to watch some tv?",
-    "US English Female"
-  );
-  start.css("display","none");
-  tvC.css("display","block");
-  button.css("display","block");
-  kidC.css("display","block");
-}
+// creep(): Function that shows the creepy baby and says mean things
+function creep() {
+  // only works if the tv is on
+  if(power==true) {
 
-function starty() {
-  console.log("start");
-  let yes = {'yes': yesFunction};
-  let off = {'turn it off': offFunction};
-  let on = {'turn it on': yesFunction};
-  annyang.addCommands(yes);
-  annyang.addCommands(off);
-  annyang.addCommands(on);
-  annyang.start();
-}
-
-function yesFunction() {
-  if(power==false){
-    responsiveVoice.speak(
-      "Okay! Let me turn it on for you.",
-      "US English Female",
-      {onend: function(){
-        tvPower();
-      }}
-    );
-  }
-  else if(power==true){
-    responsiveVoice.speak(
-      "The tv is already on!",
-      "US English Female"
-    );
-  }
-}
-
-function offFunction(){
-  if(power==true){
-    responsiveVoice.speak(
-      "Okay! Let me turn it off.",
-      "US English Female",
-      {onend: function(){
-        tvPower();
-      }}
-    );
-  }
-  else if(power==false){
-    responsiveVoice.speak(
-      "The tv is already off.",
-      "US English Female"
-    );
+    // options for the responsive voice
+    let options = {
+      // random pitch
+      pitch: Math.random(),
+      // Multiple effects at the end
+      onend: function(){
+        // sets back the youtube volume to 25
+        player.setVolume(25)
+        // if the creepy baby is visible
+        if(baby.is(":visible")==true){
+          // hide it
+          baby.hide("slide");
+          // hide the tears one second later
+          setTimeout(function(){
+            tears.hide("clip");
+          }, 1000);
+        }
+      }
+    };
+    // lowers the volume to 5 while the responsive voice talks
+    player.setVolume(5);
+    // selects one random creepy text from the list and a random voice
+    let text = creepyTexts[Math.floor(Math.random() * creepyTexts.length)];
+    let language = languages[Math.floor(Math.random() * languages.length)];
+    // responsive voice speaks the random text with the random langauge and the options
+    responsiveVoice.speak(text,language,options);
+    // displaying the creepy baby
+    babyC.css("display","block");
+    // if the baby is not visible
+    if(baby.is(":visible")==false){
+      // show it
+      baby.show("slide");
+      // show the tears 700 ms later
+      setTimeout(function(){
+        tears.show("clip");
+        // play the crying sound
+        crying.play();
+        // increment the crying count
+        cryCount ++;
+        // turns off the tv when the cryCount = 3
+        if(cryCount > 2){
+          // timeout used so it doesn't overlaps with the last responsive voice
+          setTimeout(function(){
+            // thats enough!
+            responsiveVoice.speak(
+              "Ok that's enough.",
+              "US English Female",
+              // turns off the tv onend
+              {onend: function(){
+                tvPower();
+              }}
+            );
+            // sets cryCount back to 0
+            cryCount = 0;
+          }, 1500); // Delay before the "parent" intervention
+        }
+      }, 700); // Delay before the tears and crying shows up
+    }
   }
 }
