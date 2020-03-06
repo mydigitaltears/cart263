@@ -101,3 +101,7 @@ body {
 #start:active {
   background-color: #00ff2a;
 }
+
+#dialog {
+  display: none;
+}
