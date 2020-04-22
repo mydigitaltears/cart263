@@ -255,6 +255,9 @@ function gotFile(file) {
     talking = true;
     colorState = "normal";
     reactionText = "I'm too full!"
+    setTimeout(function(){
+      talking = false;
+    }, 2000);
   }
 }
 
@@ -268,6 +271,9 @@ function happyFunction() {
   colorState = "happy";
   reactionText = "Thank you!!"
   talking = true;
+  setTimeout(function(){
+    talking = false;
+  }, 2000);
   setTimeout(normalFunction, 2000);
 }
 
@@ -307,10 +313,6 @@ function showReactionText() {
     textSize(10);
     text(reactionText, 170, 37, 150, 200);
     textStyle(BOLD);
-
-    setTimeout(function(){
-      talking = false;
-    }, 2000);
   }
 }
 
