@@ -166,20 +166,23 @@ function draw() {
 }
 
 function highlight() {
-  colorState = "hovering";
+  if(state === "normal"){
+    colorState = "hovering";
+  }
 }
 
 function unhighlight() {
-  colorState = "normal";
+  if(state === "normal"){
+    colorState = "normal";
+  }
 }
 
 function gotFile(file) {
   console.log(file);
-  colorState = "active"
-
-  if(file.type == "text"){
+  if(file.type == "text" && state === "normal"){
     leggo = file.data.toString();
     state = "eating";
+    colorState = "active"
 
     let interval = setInterval(function(){
       leggo = leggo.substr(20);
@@ -192,9 +195,10 @@ function gotFile(file) {
 
   }
 
-  if(file.type === "image"){
+  if(file.type === "image" && state === "normal"){
     let img = createImg(file.data).hide();
     state = "eating";
+    colorState = "active"
     dropImages[0] = img;
 
     setTimeout(function(){
