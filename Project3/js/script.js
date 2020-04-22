@@ -17,6 +17,9 @@ var myAsciiArt;
 var myAsciiArt2;
 var asciiart_width = 34*3; var asciiart_height = 32*3;
 var images = [];
+let eatImg = [];
+let sitImg = [];
+let happyImg = [];
 var gfx;
 var gfx2;
 var ascii_arr;
@@ -27,11 +30,18 @@ var timer;
 let timer2 = 0;
 let leggo;
 let test1;
-let eating = false;
+let state = "normal";
+let colorState = "normal";
 
 function preload() {
   images[0] = loadImage('assets/images/general1.png');
   images[1] = loadImage('assets/images/general2.png');
+  eatImg[0] = loadImage('assets/images/eating1.png');
+  eatImg[1] = loadImage('assets/images/eating2.png');
+  sitImg[0] = loadImage('assets/images/sitting1.png');
+  sitImg[1] = loadImage('assets/images/sitting2.png');
+  happyImg[0] = loadImage('assets/images/happy1.png');
+  happyImg[1] = loadImage('assets/images/happy2.png');
   dropImages[1] = loadImage('assets/images/clown.png');
 }
 
@@ -58,26 +68,68 @@ function setup() {
   noStroke(); fill(0,0,0);
   frameRate(30);
 
-
   // dropzone = select('#dropzone');
   // dropzone.dragOver(highlight);
   // dropzone.dragLeave(unhighlight);
   // dropzone.drop(gotFile, unhighlight);
+  canvas.dragOver(highlight);
+  canvas.dragLeave(unhighlight);
   canvas.drop(gotFile);
-  // image(img2, 0, 0);
 }
 
 function draw() {
   background(255);
-  if(eating){
-    fill(255,0,0);
+  switch(colorState){
+    case "normal" :
+      fill(0);
+      break;
+    case "active" :
+      fill(255,0,0);
+      break;
+    case "hovering" :
+      fill(0,255,0);
+      break;
+    case "happy" :
+      fill(255,180,0);
+      break;
   }
-  else {
-    fill(0);
-  }
+
   gfx.background(255);
-  cyclic_t = millis() * 0.003 % images.length;
-  gfx.image(images[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+
+  switch(state){
+    case "normal" :
+      cyclic_t = millis() * 0.003 % images.length;
+      gfx.image(images[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+      break;
+    case "eating" :
+      cyclic_t = millis() * 0.003 % eatImg.length;
+      gfx.image(eatImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+      break;
+    case "sitting" :
+      cyclic_t = millis() * 0.003 % sitImg.length;
+      gfx.image(sitImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+      break;
+    case "happy" :
+      cyclic_t = millis() * 0.003 % happyImg.length;
+      gfx.image(happyImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+      break;
+  }
+  // if(state == "normal"){
+  //   cyclic_t = millis() * 0.003 % images.length;
+  //   gfx.image(images[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+  // }
+  // else if(state == "eating"){
+  //   cyclic_t = millis() * 0.003 % eatImg.length;
+  //   gfx.image(eatImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+  // }
+  // else if(state == "sitting"){
+  //   cyclic_t = millis() * 0.003 % sitImg.length;
+  //   gfx.image(sitImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+  // }
+  // else if(state == "happy"){
+  //   cyclic_t = millis() * 0.003 % happyImg.length;
+  //   gfx.image(happyImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
+  // }
   gfx2.background(255);
 
   // if(dropImages[0] != null){
@@ -102,16 +154,7 @@ function draw() {
 
   ascii_arr = myAsciiArt.convert(gfx);
 
-
   myAsciiArt.typeArray2d(ascii_arr, this);
-
-  // if(dropImages[0] != null){
-  //   if(timer>0){
-  //     myAsciiArt2.typeArray2d(ascii_arr2, this, 230, 190, 600, 600);
-  //   }
-  // }
-
-
 
   if(leggo != null){
     noStroke();
@@ -120,46 +163,39 @@ function draw() {
     textStyle(BOLD);
     text(leggo, 16*13.5, 15*13.5);
   }
-
 }
 
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
-// }
+function highlight() {
+  colorState = "hovering";
+}
 
-// function mouseReleased() {
-//   console.log(myAsciiArt.convert2dArrayToString(ascii_arr));
-// }
-
-// function highlight() {
-//   dropzone.style('background-color', '#ccc');
-// }
-//
-// function unhighlight() {
-//   dropzone.style('background-color', '#fff');
-// }
+function unhighlight() {
+  colorState = "normal";
+}
 
 function gotFile(file) {
   console.log(file);
+  colorState = "active"
 
   if(file.type == "text"){
     leggo = file.data.toString();
-    console.log(file.subtype);
-
+    state = "eating";
 
     let interval = setInterval(function(){
-      //leggo = leggo.slice(0, -5);
       leggo = leggo.substr(20);
+      if(leggo === ""){
+        console.log(leggo);
+        sittingFunction();
+        clearInterval(interval);
+      }
     }, 10);
 
   }
 
   if(file.type === "image"){
-
     let img = createImg(file.data).hide();
-    leggo = "";
+    state = "eating";
     dropImages[0] = img;
-    console.log(img);
 
     setTimeout(function(){
       gfx2.image(dropImages[0], 0, 0, gfx2.width, gfx2.height);
@@ -168,47 +204,33 @@ function gotFile(file) {
 
       leggo = myAsciiArt2.convert2dArrayToString(ascii_arr2);
 
-      eating = true;
-
-      console.log(leggo);
       let interval = setInterval(function(){
         leggo = leggo.substr(20);
-
         if(leggo === ""){
-          eating = false;
-          console.log(leggo);
+          sittingFunction();
           clearInterval(interval);
         }
       }, 10);
 
     }, 100)
-
-
-
-    //timer = Math.floor(ascii_arr2.length);
-
-    // let interval2 = setInterval(function(){
-    //   //leggo = leggo.slice(0, -5);
-    //   //ascii_arr2.splice(-1);
-    //   if(ascii_arr2[0] != null){
-    //     ascii_arr2.splice(0, 1);
-    //
-    //     timer--;
-    //   }
-    //   if(timer == 0){
-    //     clearInterval(interval2);
-    //   }
-    //   console.log(timer);
-    // }, 100);
-
-
-    // let interval = setInterval(function(){
-    //   timer --;
-    //
-    //   console.log(timer);
-    // }, 1000);
-
-    //setTimeout(function(){clearInterval(interval);console.log(ascii_arr2);}, timer*1000);
   }
+}
 
+function sittingFunction() {
+  state = "sitting";
+  console.log("hey");
+  setTimeout(happyFunction, 2000);
+}
+
+function happyFunction() {
+  state = "happy";
+  colorState = "happy";
+  console.log("yo");
+  setTimeout(normalFunction, 2000);
+}
+
+function normalFunction() {
+  colorState = "normal";
+  state = "normal";
+  console.log("sup");
 }
