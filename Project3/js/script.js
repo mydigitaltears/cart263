@@ -27,11 +27,48 @@ var ascii_arr2;
 var cyclic_t;
 var dropImages = [];
 var timer;
-let timer2 = 0;
 let leggo;
-let test1;
+
 let state = "normal";
 let colorState = "normal";
+let feelings = "normal";
+let hunger;
+let reactionText = "";
+let talking = false;
+
+let database;
+let stateData;
+
+let date;
+
+document.addEventListener("DOMContentLoaded", event => {
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAQpmCfdJkWM7YYBMOWITyR1DlXn-Z-9sA",
+    authDomain: "ascii-tamagotchi.firebaseapp.com",
+    databaseURL: "https://ascii-tamagotchi.firebaseio.com",
+    projectId: "ascii-tamagotchi",
+    storageBucket: "ascii-tamagotchi.appspot.com",
+    messagingSenderId: "689301622282",
+    appId: "1:689301622282:web:ad4db5714281268c8159f3",
+    measurementId: "G-BDJBTW3LTS"
+  };
+  firebase.initializeApp(firebaseConfig);
+  database = firebase.database();
+  stateData = database.ref('stateData');
+  stateData.once('value', gotStateData, errStateData);
+});
+
+function gotStateData(data) {
+  hunger = data.val().hunger;
+  date = data.val().date;
+  console.log(hunger);
+  hungerTime();
+}
+
+function errStateData(error) {
+  console.error(error);
+}
 
 function preload() {
   images[0] = loadImage('assets/images/general1.png');
@@ -78,7 +115,11 @@ function setup() {
 }
 
 function draw() {
-  background(255);
+
+  background(240);
+  gfx.background(255);
+  gfx2.background(255);
+
   switch(colorState){
     case "normal" :
       fill(0);
@@ -93,8 +134,6 @@ function draw() {
       fill(255,180,0);
       break;
   }
-
-  gfx.background(255);
 
   switch(state){
     case "normal" :
@@ -114,24 +153,6 @@ function draw() {
       gfx.image(happyImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
       break;
   }
-  // if(state == "normal"){
-  //   cyclic_t = millis() * 0.003 % images.length;
-  //   gfx.image(images[floor(cyclic_t)], 0, 0, 34*2, 32*2);
-  // }
-  // else if(state == "eating"){
-  //   cyclic_t = millis() * 0.003 % eatImg.length;
-  //   gfx.image(eatImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
-  // }
-  // else if(state == "sitting"){
-  //   cyclic_t = millis() * 0.003 % sitImg.length;
-  //   gfx.image(sitImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
-  // }
-  // else if(state == "happy"){
-  //   cyclic_t = millis() * 0.003 % happyImg.length;
-  //   gfx.image(happyImg[floor(cyclic_t)], 0, 0, 34*2, 32*2);
-  // }
-  gfx2.background(255);
-
   // if(dropImages[0] != null){
   //   if(timer > 0){
   //     fill(255); // Use color variable 'c' as fill col
@@ -147,10 +168,8 @@ function draw() {
   //     //noTint();
   //   }
   // }
-
-  gfx2.filter(POSTERIZE, 3);
   gfx.filter(POSTERIZE, 3);
-
+  gfx2.filter(POSTERIZE, 3);
 
   ascii_arr = myAsciiArt.convert(gfx);
 
@@ -163,6 +182,9 @@ function draw() {
     textStyle(BOLD);
     text(leggo, 16*13.5, 15*13.5);
   }
+
+  showHunger();
+  showReactionText();
 }
 
 function highlight() {
@@ -179,35 +201,13 @@ function unhighlight() {
 
 function gotFile(file) {
   console.log(file);
-  if(file.type == "text" && state === "normal"){
-    leggo = file.data.toString();
+
+  if(state === "normal" && hunger > 0){
     state = "eating";
     colorState = "active"
 
-    let interval = setInterval(function(){
-      leggo = leggo.substr(20);
-      if(leggo === ""){
-        console.log(leggo);
-        sittingFunction();
-        clearInterval(interval);
-      }
-    }, 10);
-
-  }
-
-  if(file.type === "image" && state === "normal"){
-    let img = createImg(file.data).hide();
-    state = "eating";
-    colorState = "active"
-    dropImages[0] = img;
-
-    setTimeout(function(){
-      gfx2.image(dropImages[0], 0, 0, gfx2.width, gfx2.height);
-
-      ascii_arr2 = myAsciiArt.convert(gfx2, gfx2.width/1.5, gfx2.height/3);
-
-      leggo = myAsciiArt2.convert2dArrayToString(ascii_arr2);
-
+    if(file.type == "text"){
+      leggo = file.data.toString();
       let interval = setInterval(function(){
         leggo = leggo.substr(20);
         if(leggo === ""){
@@ -215,26 +215,107 @@ function gotFile(file) {
           clearInterval(interval);
         }
       }, 10);
+    }
 
-    }, 100)
+    if(file.type === "image"){
+      let img = createImg(file.data).hide();
+
+      let fileWeight = file.size/100000;
+      hunger = hunger - fileWeight;
+      hunger = hunger < 0 ? 0 : hunger;
+      firebase.database().ref('stateData').update({hunger: hunger});
+
+      dropImages[0] = img;
+
+      setTimeout(function(){
+        gfx2.image(dropImages[0], 0, 0, gfx2.width, gfx2.height);
+
+        ascii_arr2 = myAsciiArt.convert(gfx2, gfx2.width/1.5, gfx2.height/3);
+
+        leggo = myAsciiArt2.convert2dArrayToString(ascii_arr2);
+
+        let interval = setInterval(function(){
+          leggo = leggo.substr(20);
+          if(leggo === ""){
+            sittingFunction();
+            clearInterval(interval);
+          }
+        }, 10);
+      }, 100)
+    }
+  }
+
+  else if(hunger <= 0) {
+    talking = true;
+    colorState = "normal";
+    reactionText = "I'm too full!"
   }
 }
 
 function sittingFunction() {
   state = "sitting";
-  console.log("hey");
   setTimeout(happyFunction, 2000);
 }
 
 function happyFunction() {
   state = "happy";
   colorState = "happy";
-  console.log("yo");
+  reactionText = "Thank you!!"
+  talking = true;
   setTimeout(normalFunction, 2000);
 }
 
 function normalFunction() {
   colorState = "normal";
   state = "normal";
-  console.log("sup");
+}
+
+function feelingsFunction() {
+
+}
+
+function showHunger() {
+  noStroke();
+  fill(0);
+  textAlign(LEFT, TOP);
+  textStyle(BOLD);
+  textSize(14);
+  text('hunger', 500, 10);
+  let x = hunger;
+  x = x < 0 ? 0 : x;
+  rect(500, 25, x*10, 5);
+  textSize(10);
+}
+
+function showReactionText() {
+  if(talking){
+    rectMode(CENTER);
+    fill(255);
+    rect(235, 60, 150, 60, 20);
+    rectMode(CORNER);
+
+    noStroke();
+    fill(0);
+    textAlign(LEFT, TOP);
+    textStyle(NORMAL);
+    textSize(10);
+    text(reactionText, 170, 37, 150, 200);
+    textStyle(BOLD);
+
+    setTimeout(function(){
+      talking = false;
+    }, 2000);
+  }
+}
+
+function hungerTime() {
+  let dateNow = Date.now();
+  if(hunger < 15){
+    let hungerFill = (dateNow - date)/100000;
+    hunger = hunger + hungerFill;
+    hunger = hunger > 15 ? 15 : hunger;
+    firebase.database().ref('stateData').update({hunger: hunger});
+    console.log(hunger + "hunger");
+  }
+  firebase.database().ref('stateData').update({date: dateNow});
 }
