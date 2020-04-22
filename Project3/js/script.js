@@ -208,6 +208,12 @@ function gotFile(file) {
 
     if(file.type == "text"){
       leggo = file.data.toString();
+
+      let fileWeight = file.size/1000;
+      hunger = hunger - fileWeight;
+      hunger = hunger < 0 ? 0 : hunger;
+      firebase.database().ref('stateData').update({hunger: hunger});
+
       let interval = setInterval(function(){
         leggo = leggo.substr(20);
         if(leggo === ""){
