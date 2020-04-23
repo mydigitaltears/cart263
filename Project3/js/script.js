@@ -249,6 +249,12 @@ function gotFile(file) {
       hunger = hunger < 0 ? 0 : hunger;
       // update hunger data to database;
       firebase.database().ref('stateData').update({hunger: hunger});
+      // increments happiness if hunger is empty
+      if(happiness < 15 && hunger === 0){
+        happiness ++;
+        // update the hapiness to the database
+        firebase.database().ref('stateData').update({happiness: happiness});
+      }
       // remove parts of the text at interval to simulate eating
       let interval = setInterval(function(){
         // remove 20 characters at every 10 ms
@@ -285,6 +291,12 @@ function gotFile(file) {
       hunger = hunger < 0 ? 0 : hunger;
       // update hunger data to database;
       firebase.database().ref('stateData').update({hunger: hunger});
+      // increments happiness if hunger is empty
+      if(happiness < 15 && hunger === 0){
+        happiness ++;
+        // update the hapiness to the database
+        firebase.database().ref('stateData').update({happiness: happiness});
+      }
       // save image to dropImages array
       dropImages[0] = img;
 
@@ -333,12 +345,7 @@ function gotFile(file) {
     setTimeout(function(){
       talking = false;
     }, 2000);
-    // increments happiness
-    if(happiness < 15){
-      happiness ++;
-      // update the hapiness to the database
-      firebase.database().ref('stateData').update({happiness: happiness});
-    }
+
   }
 }
 
