@@ -333,6 +333,10 @@ function gotFile(file) {
     setTimeout(function(){
       talking = false;
     }, 2000);
+    // increments happiness
+    if(happiness < 15){
+      happiness ++;
+    }
   }
 }
 
@@ -471,6 +475,10 @@ function hungerTime() {
     // display a text for 2 seconds
     reactionText = "I'm hungry!!"
     talking = true;
+    // decrements happiness
+    if(happiness > 0){
+      happiness --;
+    }
   }
   // update the date in the database
   firebase.database().ref('stateData').update({date: dateNow});
