@@ -222,6 +222,7 @@ function unhighlight() {
 // gotFile()
 function gotFile(file) {
   console.log(file);
+  talking = false;
   // only eats if the state is normal and hunger is positive
   if(state === "normal" && hunger > 0){
     // if the file type is "text":
@@ -464,6 +465,12 @@ function hungerTime() {
     // update hunger in the database
     firebase.database().ref('stateData').update({hunger: hunger});
     console.log(hunger + "hunger");
+  }
+  // says "I'm hungry" if hunger meter is full
+  else {
+    // display a text for 2 seconds
+    reactionText = "I'm hungry!!"
+    talking = true;
   }
   // update the date in the database
   firebase.database().ref('stateData').update({date: dateNow});
