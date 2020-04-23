@@ -336,6 +336,8 @@ function gotFile(file) {
     // increments happiness
     if(happiness < 15){
       happiness ++;
+      // update the hapiness to the database
+      firebase.database().ref('stateData').update({happiness: happiness});
     }
   }
 }
@@ -362,6 +364,8 @@ function happyFunction() {
   // update happiness value
   if(happiness < 15) {
     happiness ++;
+    // update the hapiness to the database
+    firebase.database().ref('stateData').update({happiness: happiness});
   }
   // display a text for 2 seconds
   reactionText = "Thank you!!"
@@ -381,6 +385,8 @@ function unhappyFunction() {
   // update happiness value
   if(happiness > 0) {
     happiness --;
+    // update the hapiness to the database
+    firebase.database().ref('stateData').update({happiness: happiness});
   }
   // display a text for 2 seconds
   reactionText = "I don't like it!!"
@@ -478,6 +484,8 @@ function hungerTime() {
     // decrements happiness
     if(happiness > 0){
       happiness --;
+      // update the hapiness to the database
+      firebase.database().ref('stateData').update({happiness: happiness});
     }
   }
   // update the date in the database
